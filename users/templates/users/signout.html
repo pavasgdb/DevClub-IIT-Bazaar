@@ -1,0 +1,9 @@
+{% extends 'users/base.html' %}
+{% block content %}
+	<div>
+		You have been logged out successfully!
+	</div>
+	<div>
+		<a href="{% url 'signin' %}">SignIn Again</a>
+	</div>
+{% endblock %}

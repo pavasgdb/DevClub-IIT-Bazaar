@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{% static 'bazaar/base.css' %}">
+	<title>IIT Bazaar</title>
+</head>
+<body>
+  <header style="margin-top: -60pt">
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#56037F">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'HomePageOptions' %}" style="color:#C0C0C0;">Home</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'About' %}">About</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto iit-bazaar" href="{% url 'HomePageOptions' %}" style="color: #C0C0C0;">IIT Bazaar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            {% if user.is_authenticated %}
+              <ul class="navbar-nav ml-auto">
+                  <li>
+                      <a class="nav-link" href="{% url 'product-create' %}">Add Product</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
+                  </li>
+                  <li class="nav-item btns2">
+                      <a class="nav-link" href="{% url 'signout' %}" style="color: white;">LogOut</a>
+                  </li>
+              </ul>
+            {% else %}
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'signin' %}">SignIn</a>
+                  </li>
+                  <li class="nav-item btns2" >
+                      <a class="nav-link" href="{% url 'register' %}" style="color: white;">SignUp</a>
+                  </li>
+              </ul>
+            {% endif %}
+        </div>
+    </nav>
+  </header>
+
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{message.tags}}">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endif %}
+
+    <main role="main" class="container" style="padding-top: 50pt">
+      <div class="row">
+        <div class="col-md-8">
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Our Sidebar</h3>
+            <p class='text-muted'>You can put any information here you'd like.
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Latest Posts</li>
+                <li class="list-group-item list-group-item-light">Announcements</li>
+                <li class="list-group-item list-group-item-light">Calendars</li>
+                <li class="list-group-item list-group-item-light">etc</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends "bazaar/base.html" %}
+{% block content %}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    $("#buy-btn").click(function () {
+      var username = $(this).val();
+      var active = false // or false, you have to set it
+      $.ajax({
+        url: '/ajax/change_status/',
+        data: {
+          'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+          'active': active
+          'job_id': username
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.success) {
+            alert("ajax call success.");
+            // here you update the HTML to change the active to innactive
+          }else{
+            alert("ajax call not success.");
+          }
+        }
+      });
+
+    });
+  </script>
+
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.seller.profile.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ object.seller }}</a>
+        <small class="text-muted">{{ object.date_available|date:"F d, Y" }}</small>
+        {% if object.seller == user %}
+          <div class="btns">
+            <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'product-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'product-delete' object.id %}">Delete</a>
+        {% elif user.is_authenticated %}
+          <div class="btns">
+            <!-- <a id="buy-btn" class="btn btn-success btn-sm mt-1 mb-1">Buy</a> -->
+            <button id="buy-btn" type="submit">Buy</button>
+          </div>
+        {% endif %}
+      </div>
+      <h2 class="article-title">{{ object.title }}</h2>
+      <p class="article-content">{{ object.description }}</p>
+      <p class="article-content">{{ object.price }}</p>
+    </div>
+  </article>
+{% endblock content %}
